@@ -1,0 +1,34 @@
+name: 🗑 Clean videos folder
+
+on:
+  workflow_dispatch:
+
+jobs:
+  clean:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+      - name: Remove all files in videos/
+        run: |
+          if [ -d "videos" ] && [ "$(ls -A videos)" ]; then
+            git rm -rf videos/* 2>/dev/null || true
+            echo "🗑️ All videos marked for deletion."
+          else
+            echo "📂 videos folder already empty."
+          fi
+      - name: Commit and push
+        run: |
+          git config user.name "github-actions"
+          git config user.email "github-actions@github.com"
+          
+          git add -f videos/
+          if git diff --cached --quiet && git diff --quiet; then
+            echo "No changes to commit."
+            exit 0
+          fi
+          
+          git commit -m "Clean videos folder [skip ci]"
+          git pull --rebase origin main || true
+          git push origin HEAD:main
