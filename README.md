@@ -109,8 +109,6 @@
 
 ---
 
-- 🌐 **سایت رسمی پروژه‌های جدید:  
-  👉 [actionfamily.lol](https://actionfamily.lol/)
 
 ---
 
